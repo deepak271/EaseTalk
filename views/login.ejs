@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login Page</title>
+    <link rel="stylesheet" href="css/login.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
+      rel="stylesheet"
+    />
+   
+  </head>
+  <body>
+    <div class="login-box">
+      <h1>Login</h1>
+      <% if(mess!=''){%>
+      <p class="mess"><%=mess%></p>
+      <%}%>
+      <form method="post" action="/api/login">
+        <label>Email</label>
+        <input type="email" placeholder="Enter Email" name="email"/>
+        <label>Password</label>
+        <input type="password" placeholder="Password" name="password"/>
+        <input type="submit" value="Submit" />
+      </form>
+      <p class="para-2">
+        Not have an account? <a href="/signup">Sign Up Here</a>
+      </p>
+    </div>
+  </body>
+</html>
+

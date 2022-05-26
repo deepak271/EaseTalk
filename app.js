@@ -1,24 +1,46 @@
+// all packages
 const express = require('express');
+const bodyparser = require('body-parser');
+const path = require('path');
+const mysql = require('mysql');
 const http = require('http');
+const router = require('./server/routes/routes');
+const control = require('./server/controller/controller');
+const  db   = require('./server/db/connection');
 
+
+PORT = process.env.PORT||3000;
 const app = express();
-app.use(express.static(__dirname+'/public'));
-app.get('/',(req,res)=>{
-    res.sendFile(__dirname+'/index.html')
-})
 const server = http.createServer(app);
 
-//socket io
-var i=0;
+
+app.use(bodyparser.urlencoded({extended:true}));
+app.use(bodyparser.json());
+app.use(express.static('public'));
+app.use('/api', express.static(path.join(__dirname, 'public')));
+app.set('view engine','ejs');
+app.use('/',router);
+
+// app.get('/',(req,res)=>{
+//     res.sendFile(__dirname+'/views/index.html')
+// })
 var users={};
 const io =require('socket.io')(server);
 
 io.on('connection',(socket)=>{
     console.log(socket.id);
+
     socket.on('new-user-join',(username)=>{
-        users[socket.id] = username+i;
-        i++;
+        io.to(socket.id).emit('update-name',(control.obj));
+
+        const temp={
+            socketid:socket.id,
+            user_db_name:control.obj.dbname,
+            user_id:control.obj.userid
+        }
+        users[control.obj.userid] = temp;
         console.log(users);
+        control.obj.contactList=[];
         socket.broadcast.emit('user-connected',username);
         io.emit('user-list',users);
 
@@ -33,8 +55,7 @@ io.on('connection',(socket)=>{
     })
 })
 
-server.listen(3000,()=>{
-    console.log('server started ....');
-
+server.listen(PORT,()=>{
+    console.log('server running on port:'+`${PORT}`);
 })
 

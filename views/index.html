@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="main">
+        <div class="nav">
+          <div class="logo">
+           <img src="img/logo.jfif" alt="" height="45px" width="45px">
+          </div>
+          <div class="brand-name">
+            EaseTalk
+          </div>
+          <div class="username">
+            Welcome User
+          </div>
+          <div class="logout">
+            <button>Logout</button>
+          </div>
+        </div>
+        <div class="body">
+            <div class="all-users">
+               <div class="inp">
+                 <input type="text" name="search" id="search">
+                 <span class="butn">search</span>
+               </div>
+               <div class="contacts">
+                 
+                No contacts added
+                 <!-- user all contacts -->
+               </div>
+            </div>
+            <div class="chat-menu">
+               <div class="chat">
+
+               </div>
+              <div class="textarea">
+                <input id="msg" type="text" placeholder="type here..">
+                <button id="sendmsg" type="button" class="btn">send</button>
+              </div>
+            </div>
+            <div class="active-users">
+              <div class="people">
+                people
+                <h3 class="count">0</h3>
+              </div>
+              <div class="active">
+               
+              </div>
+            </div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js">
+    </script>
+    <script src="js/client.js"></script>
+</body>
+</html>

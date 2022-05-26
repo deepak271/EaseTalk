@@ -1,19 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow&family=Poppins:ital,wght@1,200&family=Roboto&display=swap');
 *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 .main{
-    max-width: 900px;
-    height: 500px;
+   
+    height: 650px;
     border: 1px solid #bc2828;
     margin: auto;
-    margin-top: 30px;
+    
 }
 .nav{
     background-color: #2f3edc;
     height: 50px;
     color: white;
     position: relative;
+}
+ .username{
+    position: absolute;
+    top:10px;
+    right: 50vw;
+    background-color: #4c0550;
+    padding: 5px;
+    font-size: 1.1em;
+
+ }
+.logout{
+    position: absolute;
+    top:10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.1em;
 }
 img{
     border-radius: 50%;
@@ -32,25 +51,34 @@ img{
     padding-left: 20px;
 }
 .body{
-    background-color: #a09191;
+    background-color: #343232;
     height: 90%;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.left-menu{
+.all-users{
     height: 90%;
-    background-color: #1a1a1a;
-    width: 25%;
-    border-radius: 10px;
+    background-color: #4e0eff;
+    width: 22%;
+    margin-left: 10px;
+    border-radius: 5px;
     position: relative;
 }
 
-.right-menu{
+.chat-menu{
     height: 90%;
-    background-color: #1a1a1a;
-    width: 73%;
+    background-color: #4e0eff;
+    width: 55%;
+    border-radius: 10px;
+    position: relative;
+}
+.active-users{
+    height: 90%;
+    background-color: #4e0eff;
+    width: 18%;
+    margin-right: 10px;
     border-radius: 10px;
     position: relative;
 }
@@ -118,7 +146,7 @@ h5{
     color: #dfddd8;
     
 }
-input{
+.textarea input{
     display: inline;
     width: 80%;
     height:100%;
@@ -157,3 +185,39 @@ position: absolute;
 background-color: white;
 right: 0;
 }
+.inp input { 
+  
+    width: 75%;
+    margin: 4px 4px;
+    font-size: 1.2em;
+    color: #fff;
+    border:none;
+    outline: none;
+    background-color: #491daf;
+    border-bottom:1px solid #eeeeee;
+}
+.inp .butn{
+
+cursor: pointer;
+width: 15%;
+padding: 2px;
+font-size: 1em;
+background-color: rgb(5, 12, 12);
+color: #ddd;
+}
+.inp .butn:hover{
+    background-color: #4c0550;
+}
+.contacts{
+    margin-top: 10px;
+    height: 100%;
+}
+.contact{
+    background-color: #dfdfdf;
+    border-top: 1px solid #aaa;
+    font-size: 1.1em;
+    cursor: pointer;
+    padding:5px 10px;
+}
+
+

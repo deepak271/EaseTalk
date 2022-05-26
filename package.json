@@ -1,17 +1,22 @@
 {
-  "name": "chat",
+  "name": "easetalk",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"nodemon app.js"
+    "start": "nodemon app.js"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Deepak Yd",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.1",
+    "ejs": "^3.1.8",
     "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "mysql": "^2.18.1",
     "nodemon": "^2.0.16",
     "socket.io": "^4.5.1"
   }

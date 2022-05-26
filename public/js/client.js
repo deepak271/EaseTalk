@@ -2,16 +2,20 @@ const socket = io();
 
 var username;
 const ele=document.querySelector('.right-menu');
+const uname = document.querySelector('.username');
+const userCont = document.querySelector('.contacts')
 const chatarea=document.querySelector('.chat')
 const count = document.querySelector('.count');
 const msg = document.querySelector('#msg');
 const sendbtn = document.querySelector('#sendmsg');
 
-do{
- username=prompt('enter your name')
-}while(!username)
-
 socket.emit('new-user-join',username);
+
+socket.on('update-name',(user_obj)=>{
+    username=user_obj.dbname;
+    uname.innerHTML=`Welcome <b>${username}</b>`
+    addContacts(user_obj.contactList);
+})
 
 socket.on('user-list',(users)=>{
     showUsers(users);
@@ -42,6 +46,18 @@ socket.on('user-disconnect',(user)=>{
   socket.on('msg-send',(obj)=>{
      addMessage(obj,'in')
   })
+ 
+ function addContacts(arr){
+     console.log(arr);
+     userCont.innerHTML='';
+    arr.forEach((el)=>{
+     const div = document.createElement('div');
+     div.classList.add('contact');
+     div.setAttribute('key',`${el.reciever_id}`);
+     div.innerText=el.name;
+     userCont.appendChild(div);
+    })
+ } 
 
  function joinLeft( user,status){
    const div =document.createElement('div');
