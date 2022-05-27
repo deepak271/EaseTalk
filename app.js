@@ -41,9 +41,22 @@ io.on('connection',(socket)=>{
         users[control.obj.userid] = temp;
         console.log(users);
         control.obj.contactList=[];
-        socket.broadcast.emit('user-connected',username);
+
+        socket.broadcast.emit('user-connected',control.obj.dbname);
+
         io.emit('user-list',users);
 
+    })
+    socket.on('add-user',(payload)=>{
+        control.addConversation(payload);
+        console.log('user-added:'+control.obj.contactList);
+        io.to(socket.id).emit('update-user-list',control.obj.contactList);
+    })
+
+    socket.on('private-msg',(payload)=>{
+        console.log('get the private msg to-'+users[payload.to].user_db_name);
+        console.log('to:-'+users[payload.to].soketid);
+        io.to(users[payload.to].socketid).emit('private-msg',payload);
     })
     socket.on('disconnect',()=>{
         socket.broadcast.emit('user-disconnect',user=users[socket.id]);

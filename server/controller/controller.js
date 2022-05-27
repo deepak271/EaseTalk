@@ -59,18 +59,26 @@ const addUser=(req,res)=>{
   }
 }
 const addConversation=(uinfo)=>{
-    let sid,rid;
-    let str = 'select * from users where email = ?';
-    db.query (str,uinfo.newmail,(err,data)=>{
+    let sid=uinfo.sid;
+    let rid = uinfo.rid;
+    let str = 'select * from users where user_id = ?';
+    db.query (str,rid,(err,data)=>{
           if(data.length>0)
-          {   sid=uinfo.userid;
-              rid=data[0].user_id;
-    const str = "insert into conversation(sender_id,reciever_id) values (?,?)";
+          {   
+     let str = "insert into conversation(sender_id,reciever_id) values (?,?)";
     db.query(str,[sid,rid],(err,data)=>{
         if(err)
         throw err;
         else
-        console.log(data);
+       {
+        let str2 = 'select * from conversation where sender_id = ?'
+        db.query(str2,sid,(err,result)=>{
+            result.forEach((val)=>{
+                obj.contactList.push(val);
+            })
+            console.log('result'+result);
+        })
+       }
     })
           }
     })
