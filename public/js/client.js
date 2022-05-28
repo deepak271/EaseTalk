@@ -3,8 +3,8 @@ const socket = io();
 var username;
 var userid;
 var toid='';
-var msg_cnt=0;
 var prv_msg=[];
+var prev_click='';
 
 const ele=document.querySelector('.right-menu');
 const uname = document.querySelector('.username');
@@ -31,10 +31,12 @@ socket.on('user-list',(users)=>{
 })
 
 socket.on('user-connected',(user)=>{
+    if(toid=='')
      joinLeft(user,'joined');
 });
 
 socket.on('user-disconnect',(user)=>{
+    if(toid=='')
     joinLeft(user,'left');
 })
 
@@ -46,9 +48,18 @@ socket.on('msg-send',(obj)=>{
 socket.on('private-msg',(payload)=>{
     console.log('got the private message');
     if(toid!==payload.from)
-    {   msg_cnt=msg_cnt+1;``
+    { 
         const inc=document.querySelector(`div[key='${payload.from}']`);
-        inc.innerHTML=payload.user + `<span class="circle">${msg_cnt}</span>`
+        let count = inc.lastChild.innerText;
+        if(count==undefined)
+        {
+            console.log(count);
+            count = '1';
+        }
+        else{
+            count = parseInt(count)+1;
+        }
+        inc.innerHTML=payload.user + `<span class="circle">${count}</span>`
         prv_msg.push(payload);
     }
     else{
@@ -66,22 +77,30 @@ socket.on('update-user-list',(arr)=>{
 
 // event Listners
 addUser.addEventListener('click',()=>{
-    socket.emit('add-user',{sid:userid,rid:searchUser.value});
+     if(userid!==searchUser.value)
+     socket.emit('add-user',{sid:userid,rid:searchUser.value});
+     else
+     searchUser.value='';
 })
 userCont.addEventListener('click',(e)=>{
     toid=e.target.getAttribute('key');
     console.log(toid);
       if(e.target.classList.contains('contact'))
       { chatarea.innerHTML='';
-        let arr  = e.target.innerText.split(' ');
-        console.log('arr:'+arr);
+        let arr  = e.target.innerText.split('\n');
         chatarea.innerHTML=`<div class='sending'> <span>Sending To:-${arr[0]}</span></div>`;
-      }
-      
+        e.target.innerHTML=`${arr[0]}`
+        e.target.style.backgroundColor='#e1e1e1'
+        if(prev_click!=='' && prev_click!=e.target)
+        {   console.log(prev_click);
+            prev_click.style.backgroundColor = '#ab95ad';
+        }
+        prev_click=e.target;
+     }   
     let farr= prv_msg.filter((el)=>{
         return (el.to==toid || el.from == toid );
      })
-     //console.log(farr);
+     console.log(farr);
      farr.sort((a,b)=>{
          let fa=a.time,fb=b.time;
          return fa<fb;   
