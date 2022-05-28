@@ -3,6 +3,9 @@ const socket = io();
 var username;
 var userid;
 var toid='';
+var msg_cnt=0;
+var prv_msg=[];
+
 const ele=document.querySelector('.right-menu');
 const uname = document.querySelector('.username');
 const userCont = document.querySelector('.contacts')
@@ -36,19 +39,28 @@ socket.on('user-disconnect',(user)=>{
 })
 
 socket.on('msg-send',(obj)=>{
+    if(toid==='')
     addMessage(obj,'in')
  })
 
 socket.on('private-msg',(payload)=>{
     console.log('got the private message');
-    let obj={
-        user:payload.usern,
-        txt:payload.msg
+    if(toid!==payload.from)
+    {   msg_cnt=msg_cnt+1;``
+        const inc=document.querySelector(`div[key='${payload.from}']`);
+        inc.innerHTML=payload.user + `<span class="circle">${msg_cnt}</span>`
+        prv_msg.push(payload);
     }
-    addMessage(obj,'in');
+    else{
+        msg_cnt=0;
+        prv_msg.push(payload);
+        addMessage(payload,'in');
+    }
 }) 
 
 socket.on('update-user-list',(arr)=>{
+    searchUser.value='';
+    console.log(arr);
     addContacts(arr);
 })
 
@@ -56,25 +68,46 @@ socket.on('update-user-list',(arr)=>{
 addUser.addEventListener('click',()=>{
     socket.emit('add-user',{sid:userid,rid:searchUser.value});
 })
-  userCont.addEventListener('click',(e)=>{
-      chatarea.innerHTML='';
-      toid=e.target.getAttribute('key');
-      console.log(toid);
+userCont.addEventListener('click',(e)=>{
+    toid=e.target.getAttribute('key');
+    console.log(toid);
+      if(e.target.classList.contains('contact'))
+      { chatarea.innerHTML='';
+        let arr  = e.target.innerText.split(' ');
+        console.log('arr:'+arr);
+        chatarea.innerHTML=`<div class='sending'> <span>Sending To:-${arr[0]}</span></div>`;
+      }
+      
+    let farr= prv_msg.filter((el)=>{
+        return (el.to==toid || el.from == toid );
+     })
+     //console.log(farr);
+     farr.sort((a,b)=>{
+         let fa=a.time,fb=b.time;
+         return fa<fb;   
+     })
+     console.log(farr);
+     farr.forEach((el)=>{
+         if(el.to==toid)
+         addMessage(el,'out');
+         else if(el.to==userid)
+         addMessage(el,'in');
+     })
   })
   sendbtn.addEventListener('click',()=>{
       console.log('toid before send:'+toid);
       if(toid!=='')
       {
-          socket.emit('private-msg',{
-              to:toid,
-              msg:msg.value,
-              usern:username
-          })
-          let obj={
+          let payload={
+            to:toid,
+            from:userid,
+            txt:msg.value,
             user:username,
-            txt:msg.value
-        }
-        addMessage(obj,'out');
+            time:Date.now()
+        }       
+          socket.emit('private-msg',payload);
+          prv_msg.push(payload);
+         addMessage(payload,'out');
         console.log('private msg emited');
       }
       else
@@ -97,6 +130,9 @@ addUser.addEventListener('click',()=>{
  function addContacts(arr){
      console.log(arr);
      userCont.innerHTML='';
+     userCont.innerHTML=`<div class='contact' key='' style ="margin-bottom:10px;text-align:center">Group Chat</div>
+     <div class='crr-active'>Your Contact Users</div>`
+     chatarea.innerHTML=`<div class='sending'> <span>Sending To:-Group Chat</span></div>`;
     arr.forEach((el)=>{
      const div = document.createElement('div');
      div.classList.add('contact');

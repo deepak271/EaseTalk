@@ -60,7 +60,7 @@ img{
 }
 .all-users{
     height: 90%;
-    background-color: #4e0eff;
+    background-color: #d9cbd7e6;
     width: 22%;
     margin-left: 10px;
     border-radius: 5px;
@@ -69,10 +69,10 @@ img{
 
 .chat-menu{
     height: 90%;
-    background-color: #4e0eff;
+    background-color: #5c5853;
     width: 55%;
     border-radius: 10px;
-    position: relative;
+    position: relative
 }
 .active-users{
     height: 90%;
@@ -213,11 +213,45 @@ color: #ddd;
     height: 100%;
 }
 .contact{
-    background-color: #dfdfdf;
+    background-color: rgb(171 149 173);
     border-top: 1px solid #aaa;
     font-size: 1.1em;
     cursor: pointer;
-    padding:5px 10px;
+    padding: 5px 10px;
+    margin-top: 2px;
+    position: relative;
+}
+.crr-active{
+    text-align: center;
+    color: green;
+    background-color: #dfdfdf;
+    border-top: 1px solid #aaa;
+    font-size: 1.2em;
+    margin-bottom:8px;
+}
+.sending{  
+    text-align: center;
+    border-bottom: #fefefe 1px solid;
+    height: 1.5em;
+}
+.sending span
+{   
+    text-align: center;
+    color: rgb(217, 231, 231);
+    font-size: 1.1em;
+    background-color: #120404;
+    border-top: 1px solid #aaa;
+    padding: 2px 10px;
+    margin-bottom: 2px 0;
+}
+.circle{
+    position: absolute;
+    border-radius: 50%;
+    height: 23px;
+    width: 23px;
+    right: 7px;
+    background-color: #1323c5;
+    text-align: center;
 }
 
 
